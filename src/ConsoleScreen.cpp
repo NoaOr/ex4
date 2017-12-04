@@ -103,5 +103,7 @@ int ConsoleScreen::menu() const {
     return choice;
 }
 
-
+void ConsoleScreen::showMessage(string msg) const {
+    cout << msg << endl;
+}
 

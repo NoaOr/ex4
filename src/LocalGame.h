@@ -11,9 +11,10 @@
 #include "Cell.h"
 #include "GameLogic.h"
 #include "Screen.h"
+#include "Game.h"
 
 
-class GameFlow {
+class LocalGame : public Game{
 public:
     /**
      * Constructor.
@@ -21,11 +22,11 @@ public:
      * @param player1
      * @param player2
      */
-    GameFlow(GameLogic *logic, Player *player1, Player *player2, Screen *screen);
+    LocalGame(GameLogic *logic, Player *player1, Player *player2, Screen *screen);
     /**
      * plays one turn - calls the players functions to do there turns.
      */
-    void playOneTurn();
+    virtual void run();
     /**
      * checks if the board is full.
      * @return
@@ -34,7 +35,7 @@ public:
     /**
      * destructor.
      */
-    ~GameFlow();
+    ~LocalGame();
 private:
     Board *board;
     GameLogic *logic;

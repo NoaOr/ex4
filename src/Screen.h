@@ -44,6 +44,7 @@ public:
      * @return player choice
      */
     virtual int menu() const = 0;
+    virtual void showMessage(string msg) const = 0;
 };
 
 

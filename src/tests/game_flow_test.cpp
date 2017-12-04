@@ -5,7 +5,7 @@
 #include "game_flow_test.h"
 #include "../Board.h"
 #include "../RegularLogic.h"
-#include "../GameFlow.h"
+#include "../LocalGame.h"
 #include "../AIPlayer.h"
 #include "../ConsoleScreen.h"
 

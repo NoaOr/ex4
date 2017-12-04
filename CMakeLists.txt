@@ -9,10 +9,10 @@ include_directories(lib/googletest-release-1.8.0/googlemock/include)
 
 set(SOURCE_FILES src/main.cpp src/Board.cpp src/Cell.cpp
         src/Coordinate.cpp src/HumanPlayer.cpp src/Player.cpp src/GameLogic.cpp src/RegularLogic.cpp
-        src/RegularLogic.h src/GameFlow.cpp src/GameFlow.h src/Screen.cpp src/Screen.h src/ConsoleScreen.cpp
+        src/RegularLogic.h src/LocalGame.cpp src/LocalGame.h src/Screen.cpp src/Screen.h src/ConsoleScreen.cpp
         src/ConsoleScreen.h src/AIPlayer.cpp src/AIPlayer.h src/tests/Board_test.cpp src/tests/Board_test.h
         src/tests/gtest_main.cpp src/tests/gtest_main.h src/tests/logic_test.cpp src/tests/logic_test.h
-        src/tests/AIplayer_test.cpp src/tests/AIplayer_test.h)
+        src/tests/AIplayer_test.cpp src/tests/AIplayer_test.h src/NetGame.cpp src/NetGame.h src/Client.cpp src/Client.h src/Game.cpp src/Game.h)
 
 add_executable(ex4 ${SOURCE_FILES})
 target_link_libraries(ex4 gtest gtest_main gmock)

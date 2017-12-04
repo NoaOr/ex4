@@ -2,10 +2,10 @@
  * Noa Or 208385534
  * Amit Hadas 315968263
  */
-#include "GameFlow.h"
+#include "LocalGame.h"
 #define BOARD_SIZE 8
 
-GameFlow ::GameFlow(GameLogic *logic, Player *player1, Player *player2, Screen *screen) {
+LocalGame ::LocalGame(GameLogic *logic, Player *player1, Player *player2, Screen *screen) {
     this->board = new Board(BOARD_SIZE, BOARD_SIZE, logic);
     this->logic = logic;
     this->player1 = player1;
@@ -13,7 +13,7 @@ GameFlow ::GameFlow(GameLogic *logic, Player *player1, Player *player2, Screen *
     this->screen = screen;
 }
 
-void GameFlow ::playOneTurn() {
+void LocalGame ::run() {
     this->screen->showBoard(this->board);
 
     while (player1->hasMoreMoves() || player2->hasMoreMoves()) {
@@ -39,7 +39,7 @@ void GameFlow ::playOneTurn() {
     this->screen->gameOverScreen(board);
 
 }
-bool GameFlow ::isBoardFull() {
+bool LocalGame ::isBoardFull() {
     bool isFull = true;
     for (int i = 0; i < this->board->getRowSize(); i++) {
         for (int j = 0; j < this->board->getColSize(); j++) {
@@ -53,7 +53,7 @@ bool GameFlow ::isBoardFull() {
 
 
 
-GameFlow ::~GameFlow() {
+LocalGame ::~LocalGame() {
     delete(board);
 
 }

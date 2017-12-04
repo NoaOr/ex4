@@ -3,11 +3,12 @@
  * Amit Hadas 315968263
  */
 
-#include "GameFlow.h"
+#include "LocalGame.h"
 #include "RegularLogic.h"
 #include "HumanPlayer.h"
 #include "ConsoleScreen.h"
 #include "AIPlayer.h"
+#include "NetGame.h"
 
 
 int main() {
@@ -15,16 +16,18 @@ int main() {
     int choice = screen->menu();
     Player *player2;
     GameLogic *logic = new RegularLogic();
+    Game* game;
     Player *player1= new HumanPlayer(Cell ::X, logic);
     if (choice == 1) {
         player2 = new HumanPlayer(Cell::O, logic);
-    } else {
+        game = new LocalGame(logic, player1, player2, screen);
+    } else if(choice == 2){
         player2 = new AIPlayer(Cell::O, logic);
+        game = new LocalGame(logic, player1, player2, screen);
+    } else {
+        game = new NetGame(logic, screen);
     }
-
-    GameFlow game = GameFlow(logic, player1, player2, screen);
-    game.playOneTurn();
-
+    game->run();
     delete(logic);
     delete(player1);
     delete(player2);
