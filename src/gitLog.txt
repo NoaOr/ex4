@@ -1,0 +1,79 @@
+commit 191140f895e677892da841ee36d7eb7fb599eb82
+Author: Amit Hadas <amitr.hadas@gmail.com>
+Date:   Wed Nov 29 06:41:08 2017 -0800
+
+    Add names
+    
+    Signed-off-by: Amit Hadas <amitr.hadas@gmail.com>
+
+commit f56e262b09504492a3aae455de7de4767a90299d
+Author: Noa Or <noaor7@gmail.com>
+Date:   Wed Nov 29 14:27:07 2017 +0200
+
+    Moved prints to console screen ,added comments and makefile
+    
+    Signed-off-by: Noa Or <noaor7@gmail.com>
+
+commit c39acdc27a7e7bb9d8d3858bbc2b12bef0ad04e5
+Author: Noa Or <noaor7@gmail.com>
+Date:   Tue Nov 28 20:18:36 2017 +0200
+
+    fixed memory leaks, Added test on gameflow
+    
+    Signed-off-by: Noa Or <noaor7@gmail.com>
+
+commit 4bb75d50ce214be093fc787cd7565123011ceb99
+Author: Amit Hadas <amitr.hadas@gmail.com>
+Date:   Sat Nov 25 14:40:06 2017 -0800
+
+    Add AI player tests
+    
+    Signed-off-by: Amit Hadas <amitr.hadas@gmail.com>
+
+commit 064ab281ab50cceaebe0ddfe39778d9af611baa1
+Author: Noa Or <noaor7@gmail.com>
+Date:   Sat Nov 25 23:52:13 2017 +0200
+
+    Added menu to main.cpp
+    
+    Signed-off-by: Noa Or <noaor7@gmail.com>
+
+commit cec87876403f78e484bfb2f7316538a036b64e31
+Author: Noa Or <noaor7@gmail.com>
+Date:   Sat Nov 25 23:46:27 2017 +0200
+
+    Added 2 tests to logic_test
+    
+    Signed-off-by: Noa Or <noaor7@gmail.com>
+
+commit d343b461b13388c7a014445f086ca24b7216e57f
+Author: Amit Hadas <amitr.hadas@gmail.com>
+Date:   Sat Nov 25 11:10:44 2017 -0800
+
+    Add two logic tests
+    
+    Signed-off-by: Amit Hadas <amitr.hadas@gmail.com>
+
+commit 3d319f93ae755e0908c85847e4acd703dc944ae4
+Author: Noa Or <noaor7@gmail.com>
+Date:   Mon Nov 20 15:22:36 2017 +0200
+
+    Added UML
+    
+    Signed-off-by: Noa Or <noaor7@gmail.com>
+
+commit a5b150460b9eff2d3fb558fd9d8936c26738531e
+Author: Amit Hadas <amitr.hadas@gmail.com>
+Date:   Sat Nov 18 14:21:32 2017 -0800
+
+    Add support AIPlayer
+    
+    Signed-off-by: Amit Hadas <amitr.hadas@gmail.com>
+
+commit 5f6c4a6bbb294c2ce972643de2573d81634fcd45
+Author: Amit Hadas <amitr.hadas@gmail.com>
+Date:   Sat Nov 18 13:29:59 2017 -0800
+
+    Initial commit EX2 files
+    
+    Signed-off-by: Amit Hadas <amitr.hadas@gmail.com>
