@@ -3,6 +3,7 @@
  * Amit Hadas 315968263
  */
 
+#include <bitset>
 #include "ConsoleScreen.h"
 void ConsoleScreen::showBoard(Board *board) {
     cout << '\n' << "current board:" << endl;
@@ -105,5 +106,10 @@ int ConsoleScreen::menu() const {
 
 void ConsoleScreen::showMessage(string msg) const {
     cout << msg << endl;
+}
+
+void ConsoleScreen::showMessage(char msg[], int msgSize) const {
+    string str (msg);
+    cout <<str<< endl;
 }
 

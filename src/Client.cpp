@@ -10,7 +10,8 @@
 #include <unistd.h>
 #include "Client.h"
 
-Client :: Client(const char *serverIP, int serverPort, GameLogic* gameLogic, Board* board) :
+Client :: Client(const char *serverIP, int serverPort,
+                 GameLogic* gameLogic, Board* board, Screen *screen) :
         serverIP(serverIP), serverPort(serverPort), clientSocket(0), gameLogic(gameLogic),
         player(Cell::Empty, this->gameLogic), board(board), screen(screen){
 }
@@ -36,8 +37,7 @@ void Client :: connectToServer() {
     struct sockaddr_in serverAddress;
     bzero((char *)&address, sizeof(address));
     serverAddress.sin_family = AF_INET;
-    memcpy((char *)&serverAddress.sin_addr.s_addr, (char
-    *)server->h_addr, server->h_length);
+    memcpy((char *)&serverAddress.sin_addr.s_addr, (char *)server->h_addr, server->h_length);
     // htons converts values between host and network byte orders
     serverAddress.sin_port = htons(serverPort);
     // Establish a connection with the TCP server
@@ -45,8 +45,11 @@ void Client :: connectToServer() {
     *)&serverAddress, sizeof(serverAddress)) == -1) {
         throw "Error connecting to server";
     }
+    char msgBuff[300];
+    int n = read(clientSocket, &msgBuff, sizeof(msgBuff));
+    this->screen->showMessage(msgBuff, n);
     int value;
-    int n = read(clientSocket, &value, sizeof(value));
+    n = read(clientSocket, &value, sizeof(value));
     if(n == -1) {
         throw "Error reading value from socket";
     }
@@ -61,6 +64,10 @@ int Client :: sendChoice() {
     int buffer [2];
     buffer[0] = choice.getRow();
     buffer[1] = choice.getCol();
+    Coordinate coor(buffer[0], buffer[1]);
+    this->board->updateBoard(coor, this->player.getVal());
+    this->screen->showPlayersChoice(this->player.getVal(), coor);
+    this->screen->showBoard(this->board);
     int n = write(clientSocket, &buffer, sizeof(buffer));
     if (n == -1) {
         throw "Error writing the choice";
@@ -71,11 +78,23 @@ int Client :: readOpponentChoice() {
     Cell::Value opponentVal = cell.getOpponentVal(this->player.getVal());
     int buffer[2];
     int n = read(clientSocket, &buffer, sizeof(buffer));
+    // this->screen->showMessage((char *)buffer);
     if(n == -1) {
         throw "Error reading choice from socket";
     }
+    Coordinate firstTurnFlag(-1, -1);
     Coordinate coor(buffer[0], buffer[1]);
-    this->board->updateBoard(coor, opponentVal);
-    this->screen->showPlayersChoice(opponentVal, coor);
-    this->screen->showBoard(this->board);
+    if (coor.getRow() != -1 || coor.getCol() != -1) {
+        this->board->updateBoard(coor, opponentVal);
+        this->screen->showPlayersChoice(opponentVal, coor);
+        this->screen->showBoard(this->board);
+    }
+}
+
+void Client::readMassage() {
+    char msg[300];
+    int n = read(clientSocket, &msg, sizeof(msg));
+    if(strcmp(msg, "First turn") != 0) {
+        screen->showMessage(msg, n);
+    }
 }
