@@ -42,6 +42,7 @@ public:
     virtual void showOptions(list<Coordinate> optionsList, char value) const;
     virtual int menu() const;
     virtual void showMessage(string msg) const;
+    virtual void showMessage(char msg[], int msgSize) const;
 
 };
 

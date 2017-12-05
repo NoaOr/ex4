@@ -31,23 +31,9 @@ Coordinate HumanPlayer ::doYourTurn(Board *board, Screen *screen) {
         stringVal = 'O';
     }
 
-
-
-//    cout << '\n' << stringVal << ": It's your move" << endl;
     if (!optionsList.empty()) {
         this->hasMove = true;
         screen->showOptions(optionsList, stringVal);
-//        cout << "Your possible moves:";
-//        list<Coordinate>::const_iterator listIterator;
-//        for (listIterator = optionsList.begin();
-//             listIterator != optionsList.end(); ++listIterator) {
-//            if (!(listIterator == optionsList.begin())) {
-//                cout << ", ";
-//            }
-//            int x = listIterator->getRow() + 1, y = listIterator->getCol() + 1;
-//            cout << "(" << x << "," << y << ")";
-//        }
-//        cout << '\n' << "Please enter your move row, col:";
         Coordinate choice = this->getChoice(optionsList, screen);
         return choice;
     } else {

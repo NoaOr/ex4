@@ -11,10 +11,12 @@
 
 class Client {
 public:
-    Client(const char *serverIP, int serverPort, GameLogic* gameLogic, Board* board);
+    Client(const char *serverIP, int serverPort,
+           GameLogic* gameLogic, Board* board, Screen *screen);
     void connectToServer();
     int sendChoice();
     int readOpponentChoice();
+    void readMassage();
 private:
     const char *serverIP;
     int serverPort;

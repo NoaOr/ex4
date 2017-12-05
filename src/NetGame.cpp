@@ -2,6 +2,7 @@
 // Created by amit on 12/4/17.
 //
 
+#include <cstdlib>
 #include "NetGame.h"
 #define BOARD_SIZE 8
 NetGame::NetGame(GameLogic* logic, Screen* screen){
@@ -11,7 +12,7 @@ NetGame::NetGame(GameLogic* logic, Screen* screen){
 }
 
 void NetGame::run() {
-    Client client("127.0.0.1", 8000, logic, board);
+    Client client("127.0.0.1", 8000, logic, board, screen);
     try {
         client.connectToServer();
     } catch (const char *msg) {
@@ -19,9 +20,10 @@ void NetGame::run() {
         this->screen->showMessage(msg);
         exit(-1);
     }
-    //bool isFirstTurn = true;
+
     this->screen->showBoard(this->board);
-     {
+    for (int i = 0; i < 10; i++) {
+        client.readMassage();
         client.readOpponentChoice();
         client.sendChoice();
     }

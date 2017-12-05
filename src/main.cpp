@@ -30,7 +30,7 @@ int main() {
     game->run();
     delete(logic);
     delete(player1);
-    delete(player2);
+  //  delete(player2);
     delete(screen);
 
 }
