@@ -61,16 +61,19 @@ void Client :: connectToServer() {
 }
 int Client :: sendChoice() {
     Coordinate choice = this->player.doYourTurn(this->board, this->screen);
-    int buffer [2];
-    buffer[0] = choice.getRow();
-    buffer[1] = choice.getCol();
-    Coordinate coor(buffer[0], buffer[1]);
-    this->board->updateBoard(coor, this->player.getVal());
-    this->screen->showPlayersChoice(this->player.getVal(), coor);
-    this->screen->showBoard(this->board);
-    int n = write(clientSocket, &buffer, sizeof(buffer));
-    if (n == -1) {
-        throw "Error writing the choice";
+    Coordinate coor(-1, -1);
+    if(&choice != &coor) {
+        int buffer [2];
+        buffer[0] = choice.getRow();
+        buffer[1] = choice.getCol();
+        Coordinate coor(buffer[0], buffer[1]);
+        this->board->updateBoard(coor, this->player.getVal());
+        this->screen->showPlayersChoice(this->player.getVal(), coor);
+        this->screen->showBoard(this->board);
+        int n = write(clientSocket, &buffer, sizeof(buffer));
+        if (n == -1) {
+            throw "Error writing the choice";
+        }
     }
 }
 int Client :: readOpponentChoice() {

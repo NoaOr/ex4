@@ -4,7 +4,7 @@
 
 #include <cstdlib>
 #include "NetGame.h"
-#define BOARD_SIZE 8
+#define BOARD_SIZE 4
 NetGame::NetGame(GameLogic* logic, Screen* screen){
     this->logic = logic;
     this->board = new Board(BOARD_SIZE, BOARD_SIZE, logic);

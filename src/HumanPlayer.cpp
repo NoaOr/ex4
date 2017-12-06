@@ -39,8 +39,7 @@ Coordinate HumanPlayer ::doYourTurn(Board *board, Screen *screen) {
     } else {
         movePasses(screen, stringVal);
     }
-
-
+    return Coordinate(-1,-1);
 }
 
 Coordinate HumanPlayer ::getChoice(list<Coordinate> optionsList, Screen *screen) const {

@@ -98,7 +98,9 @@ void ConsoleScreen ::showOptions(list<Coordinate> optionsList, char value) const
 }
 int ConsoleScreen::menu() const {
     cout << "Hello!" << '\n' << "Choose how to play othello:" << '\n' <<
-         "1: 2 Human players." << '\n' << "2: A Human player and an AI player." << endl;
+         "1: 2 Human players." << '\n' <<
+         "2: A Human player and an AI player." << endl <<
+         "3: A remote player" << endl;
     int choice;
     cin >> choice;
     return choice;
