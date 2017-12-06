@@ -129,3 +129,15 @@ bool Board :: operator==(const Board &board) const {
 void Board :: updateCell(int x, int y, Cell::Value value) {
     this->boardTable[x][y]->setValue(value);
 }
+
+bool Board::isBoardFull() {
+    bool isFull = true;
+    for (int i = 0; i < this->rowSize; i++) {
+        for (int j = 0; j < this->colSize; j++) {
+            if (this->boardTable[i][j]->getValue() == Cell ::Empty) {
+                isFull = false;
+            }
+        }
+    }
+    return isFull;
+}

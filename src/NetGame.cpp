@@ -4,7 +4,7 @@
 
 #include <cstdlib>
 #include "NetGame.h"
-#define BOARD_SIZE 4
+#define BOARD_SIZE 8
 NetGame::NetGame(GameLogic* logic, Screen* screen){
     this->logic = logic;
     this->board = new Board(BOARD_SIZE, BOARD_SIZE, logic);
@@ -20,13 +20,23 @@ void NetGame::run() {
         this->screen->showMessage(msg);
         exit(-1);
     }
-
+    int isGameContinue;
     this->screen->showBoard(this->board);
-    for (int i = 0; i < 10; i++) {
-        client.readMassage();
-        client.readOpponentChoice();
-        client.sendChoice();
+    while (true) {
+        isGameContinue = client.readMassage();
+        if (isGameContinue == false) {
+            break;
+        }
+        isGameContinue = client.readOpponentChoice();
+        if (isGameContinue == false) {
+            break;
+        }
+        isGameContinue = client.sendChoice();
+        if (isGameContinue == false) {
+            break;
+        }
     }
+    this->screen->gameOverScreen(this->board);
 }
 
 NetGame::~NetGame() {

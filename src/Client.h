@@ -14,9 +14,9 @@ public:
     Client(const char *serverIP, int serverPort,
            GameLogic* gameLogic, Board* board, Screen *screen);
     void connectToServer();
-    int sendChoice();
-    int readOpponentChoice();
-    void readMassage();
+    bool sendChoice();
+    bool readOpponentChoice();
+    bool readMassage();
 private:
     const char *serverIP;
     int serverPort;

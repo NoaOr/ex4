@@ -55,11 +55,29 @@ void Client :: connectToServer() {
     }
     if(value == 1) {
         this->player = HumanPlayer(Cell::X, this->gameLogic);
+        this->screen->showMessage("Your value is X.");
     } else {
         this->player = HumanPlayer(Cell::O, this->gameLogic);
+        this->screen->showMessage("Your value is O.");
     }
 }
-int Client :: sendChoice() {
+bool Client :: sendChoice() {
+    if (this->board->isBoardFull()) {
+        char endMsg [4] = "End";
+        int n = write(clientSocket, &endMsg, sizeof(endMsg));
+        if (n == -1) {
+            throw "Error writing the massage";
+        }
+        return false;
+    }
+    if (!player.hasMoreMoves()) {
+        char endMsg [4] = "End";
+        int n = write(clientSocket, &endMsg, sizeof(endMsg));
+        if (n == -1) {
+            throw "Error writing the massage";
+        }
+        return true;
+    }
     Coordinate choice = this->player.doYourTurn(this->board, this->screen);
         int buffer [2];
         buffer[0] = choice.getRow();
@@ -75,8 +93,25 @@ int Client :: sendChoice() {
         if (n == -1) {
             throw "Error writing the choice";
         }
+    return true;
 }
-int Client :: readOpponentChoice() {
+bool Client :: readOpponentChoice() {
+    if (this->board->isBoardFull()) {
+        char endMsg [4] = "End";
+        int n = write(clientSocket, &endMsg, sizeof(endMsg));
+        if (n == -1) {
+            throw "Error writing the massage";
+        }
+        return false;
+    }
+    if (!player.hasMoreMoves()) {
+        char endMsg [4] = "End";
+        int n = write(clientSocket, &endMsg, sizeof(endMsg));
+        if (n == -1) {
+            throw "Error writing the massage";
+        }
+        return true;
+    }
     Cell cell(Cell::Empty);
     Cell::Value opponentVal = cell.getOpponentVal(this->player.getVal());
     int buffer[2];
@@ -92,12 +127,18 @@ int Client :: readOpponentChoice() {
         this->screen->showPlayersChoice(opponentVal, coor);
         this->screen->showBoard(this->board);
     }
+    //the game can keep going
+    return true;
 }
 
-void Client::readMassage() {
+bool Client::readMassage() {
     char msg[300];
     int n = read(clientSocket, &msg, sizeof(msg));
     if(strcmp(msg, "First turn") != 0) {
         screen->showMessage(msg, n);
+    }
+    if (strcmp(msg, "End") == 0) {
+        screen->gameOverScreen(this->board);
+        return false;
     }
 }

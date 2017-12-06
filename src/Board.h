@@ -69,6 +69,8 @@ public:
      * @param value - the new value.
      */
     void updateCell(int x, int y, Cell::Value value);
+
+    bool isBoardFull();
 private:
     Cell*** boardTable;
     int rowSize;
