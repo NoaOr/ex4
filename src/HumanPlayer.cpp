@@ -85,3 +85,20 @@ void HumanPlayer::movePasses(Screen *screen, char value) {
 }
 
 void HumanPlayer:: showChoice(Coordinate c, Screen *screen) const {}
+
+bool HumanPlayer::checkForMoves(Board *board) {
+    list<Coordinate> optionsList;
+    int row = board->getRowSize(), col = board->getColSize();
+    for (int i = 0; i < row; i++) {
+        for (int j = 0; j < col; j++) {
+            Coordinate coor = Coordinate(i, j);
+
+            if (!this->logic->findOptions(coor, this->value, board).empty()
+                && board->getCellAt(coor)->getValue() == Cell :: Empty) {
+                optionsList.push_back(coor);
+            }
+        }
+    }
+    // if the list is empty - return false
+    return !optionsList.empty();
+}

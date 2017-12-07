@@ -46,6 +46,7 @@ public:
     virtual int menu() const = 0;
     virtual void showMessage(string msg) const = 0;
     virtual void showMessage(char msg[], int msgSize) const = 0;
+    virtual void opponentHasNoMove() const = 0;
 
 };
 

@@ -115,3 +115,6 @@ void ConsoleScreen::showMessage(char msg[], int msgSize) const {
     cout <<str<< endl;
 }
 
+void ConsoleScreen::opponentHasNoMove() const {
+    cout << "Your opponent has no move. It's your turn." << endl;
+}

@@ -13,13 +13,14 @@
 
 class NetGame : public Game {
 public:
-    NetGame(GameLogic* logic, Screen* screen);
+    NetGame(GameLogic* logic, Screen* screen, char *fileName);
     ~NetGame();
     virtual void run();
 private:
     Board* board;
     GameLogic* logic;
     Screen* screen;
+    char *fileName;
 };
 
 

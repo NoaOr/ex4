@@ -48,6 +48,8 @@ public:
      */
     virtual void showChoice(Coordinate c, Screen *screen) const;
 
+    bool checkForMoves(Board *board);
+
 private:
     Cell::Value value;
     GameLogic *logic;

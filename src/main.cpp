@@ -25,7 +25,7 @@ int main() {
         player2 = new AIPlayer(Cell::O, logic);
         game = new LocalGame(logic, player1, player2, screen);
     } else {
-        game = new NetGame(logic, screen);
+        game = new NetGame(logic, screen, "info.txt");
     }
     game->run();
     delete(logic);

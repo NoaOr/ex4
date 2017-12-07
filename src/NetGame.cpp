@@ -4,15 +4,21 @@
 
 #include <cstdlib>
 #include "NetGame.h"
+#include "FileReader.h"
+
 #define BOARD_SIZE 8
-NetGame::NetGame(GameLogic* logic, Screen* screen){
+NetGame::NetGame(GameLogic* logic, Screen* screen, char *fileName){
     this->logic = logic;
     this->board = new Board(BOARD_SIZE, BOARD_SIZE, logic);
     this->screen = screen;
+    this->fileName = fileName;
 }
 
 void NetGame::run() {
-    Client client("127.0.0.1", 8000, logic, board, screen);
+    FileReader fileReader (this->fileName);
+    char *IP = fileReader.getIP();
+    int port = fileReader.getPort();
+    Client client(IP, port, logic, board, screen);
     try {
         client.connectToServer();
     } catch (const char *msg) {
