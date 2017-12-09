@@ -10,8 +10,20 @@ using namespace std;
 
 class FileReader {
 public:
+    /**
+     * Constructor.
+     * @param fileName
+     */
     FileReader(char *fileName);
+    /**
+     *
+     * @return the server IP.
+     */
     char *getIP();
+    /**
+     *
+     * @return The server port.
+     */
     int getPort();
 private:
     char IP [100];

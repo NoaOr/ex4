@@ -43,7 +43,11 @@ public:
      * @param screen - the screen.
      */
     virtual void showChoice(Coordinate c, Screen *screen)  const = 0;
-
+    /**
+     * The function makes a value to a char.
+     * @param val
+     * @return the value char
+     */
     virtual char valueToChar(Cell::Value val) const;
 
 private:

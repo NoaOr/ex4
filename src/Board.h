@@ -69,7 +69,10 @@ public:
      * @param value - the new value.
      */
     void updateCell(int x, int y, Cell::Value value);
-
+    /**
+     *
+     * @return true if the board is full and false otherwise
+     */
     bool isBoardFull();
 private:
     Cell*** boardTable;

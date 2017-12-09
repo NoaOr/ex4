@@ -47,7 +47,11 @@ public:
      * @param screen - the screen.
      */
     virtual void showChoice(Coordinate c, Screen *screen) const;
-
+    /**
+     * The function checks if the player has more moves to do.
+     * @param board
+     * @return true if there are more moves.
+     */
     bool checkForMoves(Board *board);
 
 private:
