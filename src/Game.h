@@ -8,6 +8,9 @@
 
 class Game {
 public:
+    /**
+     * The function runs the game.
+     */
     virtual void run() = 0;
 };
 

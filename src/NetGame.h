@@ -13,6 +13,12 @@
 
 class NetGame : public Game {
 public:
+    /**
+     * Constructor
+     * @param logic
+     * @param screen
+     * @param fileName
+     */
     NetGame(GameLogic* logic, Screen* screen, char *fileName);
     ~NetGame();
     virtual void run();

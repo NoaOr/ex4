@@ -22,6 +22,10 @@ public:
  */
     virtual list<Coordinate> findOptions(Coordinate c,
                                          Cell::Value v, Board *board) const = 0;
+    /**
+     *
+     * @return true if the rules are regular rules and false otherwise.
+     */
     virtual bool isRegularRules() const = 0;
 
 private:

@@ -38,11 +38,31 @@ public:
      * The function shows that the chosen move is unvalid.
      */
     virtual void showUnValidMove() const;
-
+    /**
+     * The function shows the options of the player.
+     * @param optionsList
+     * @param value
+     */
     virtual void showOptions(list<Coordinate> optionsList, char value) const;
+    /**
+     * The function shows the menu and gets a choice from the player.
+     * @return - the players choice.
+     */
     virtual int menu() const;
+    /**
+     * The function shows a message on the screen.
+     * @param msg
+     */
     virtual void showMessage(string msg) const;
+    /**
+     * The function shows a message on the screen.
+     * @param msg
+     * @param msgSize
+     */
     virtual void showMessage(char msg[], int msgSize) const;
+    /**
+     * The function tells the player that his opponent has no moves.
+     */
     virtual void opponentHasNoMove() const;
 
 };
