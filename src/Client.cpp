@@ -70,7 +70,7 @@ bool Client :: sendChoice() {
         }
         return false;
     }
-    if (!player.checkForMoves(this->board)) {
+    if (!player.checkForAnotherMoves(this->board)) {
         char NoMoveMsg [8] = "NoMove";
         int n = write(clientSocket, &NoMoveMsg, sizeof(NoMoveMsg));
         if (n == -1) {
@@ -104,7 +104,7 @@ bool Client :: readOpponentChoice() {
         }
         return false;
     }
-    if (!player.hasMoreMoves()) {
+    if (!player.checkForAnotherMoves(this->board)) {
         char NoMoveMsg [8] = "NoMove";
         int n = write(clientSocket, &NoMoveMsg, sizeof(NoMoveMsg));
         if (n == -1) {
@@ -121,12 +121,14 @@ bool Client :: readOpponentChoice() {
         throw "Error reading choice from socket";
     }
     Coordinate firstTurnFlag(-1, -1);
+    if(isEndMessage(buffer)) {
+        return true;
+    }
     //No Move -
     if (isNoMoveMsg(buffer)) {
         screen->opponentHasNoMove();
         return true;
     }
-
     Coordinate coor(buffer[0], buffer[1]);
     if (coor.getRow() != -1 || coor.getCol() != -1) {
         this->board->updateBoard(coor, opponentVal);
@@ -144,7 +146,7 @@ bool Client::readMassage() {
         screen->showMessage(msg, n);
     }
     if (strcmp(msg, "End") == 0) {
-        screen->gameOverScreen(this->board);
+       // screen->gameOverScreen(this->board);
         return false;
     }
 }
@@ -155,4 +157,14 @@ bool Client::isNoMoveMsg(int *buffer) {
         return true;
     }
     return false;
+}
+
+
+bool Client::isEndMessage(int *buffer) {
+    char *str = (char*) buffer;
+    if (strcmp(str, "End") == 0) {
+        return true;
+    }
+    return false;
+
 }

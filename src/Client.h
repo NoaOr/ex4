@@ -18,6 +18,7 @@ public:
     bool readOpponentChoice();
     bool readMassage();
     bool isNoMoveMsg(int *buffer);
+    bool isEndMessage(int *buffer);
 private:
     const char *serverIP;
     int serverPort;
