@@ -6,7 +6,7 @@
 #include "NetGame.h"
 #include "FileReader.h"
 
-#define BOARD_SIZE 4
+#define BOARD_SIZE 8
 NetGame::NetGame(GameLogic* logic, Screen* screen, char *fileName){
     this->logic = logic;
     this->board = new Board(BOARD_SIZE, BOARD_SIZE, logic);

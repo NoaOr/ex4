@@ -9,7 +9,7 @@
 #include "ConsoleScreen.h"
 #include "AIPlayer.h"
 #include "NetGame.h"
-
+#define MAX_NAME_LEN 300
 
 int main() {
     Screen *screen = new ConsoleScreen();
@@ -25,12 +25,17 @@ int main() {
         player2 = new AIPlayer(Cell::O, logic);
         game = new LocalGame(logic, player1, player2, screen);
     } else {
-        game = new NetGame(logic, screen, "info.txt");
+        char fileName[MAX_NAME_LEN] = "definitions.txt";
+        game = new NetGame(logic, screen, fileName);
     }
     game->run();
     delete(logic);
     delete(player1);
-  //  delete(player2);
+    if (choice == 1 || choice == 2) {
+        delete(player2);
+    }
     delete(screen);
+    delete(game);
+
 
 }

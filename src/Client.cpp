@@ -9,6 +9,9 @@
 #include <cstring>
 #include <unistd.h>
 #include "Client.h"
+#define MAX_NAME_LEN 300
+#define END_SIZE 4
+#define NO_MOVE_SIZE 8
 
 Client :: Client(const char *serverIP, int serverPort,
                  GameLogic* gameLogic, Board* board, Screen *screen) :
@@ -45,7 +48,7 @@ void Client :: connectToServer() {
     *)&serverAddress, sizeof(serverAddress)) == -1) {
         throw "Error connecting to server";
     }
-    char msgBuff[300];
+    char msgBuff[MAX_NAME_LEN];
     int n = read(clientSocket, &msgBuff, sizeof(msgBuff));
     this->screen->showMessage(msgBuff, n);
     int value;
@@ -63,7 +66,7 @@ void Client :: connectToServer() {
 }
 bool Client :: sendChoice() {
     if (this->board->isBoardFull()) {
-        char endMsg [4] = "End";
+        char endMsg [END_SIZE] = "End";
         int n = write(clientSocket, &endMsg, sizeof(endMsg));
         if (n == -1) {
             throw "Error writing the massage";
@@ -71,7 +74,7 @@ bool Client :: sendChoice() {
         return false;
     }
     if (!player.checkForAnotherMoves(this->board)) {
-        char NoMoveMsg [8] = "NoMove";
+        char NoMoveMsg [NO_MOVE_SIZE] = "NoMove";
         int n = write(clientSocket, &NoMoveMsg, sizeof(NoMoveMsg));
         if (n == -1) {
             throw "Error writing the massage";
@@ -96,33 +99,16 @@ bool Client :: sendChoice() {
     return true;
 }
 bool Client :: readOpponentChoice() {
-    if (this->board->isBoardFull()) {
-        char endMsg [4] = "End";
-        int n = write(clientSocket, &endMsg, sizeof(endMsg));
-        if (n == -1) {
-            throw "Error writing the massage";
-        }
-        return false;
-    }
-    if (!player.checkForAnotherMoves(this->board)) {
-        char NoMoveMsg [8] = "NoMove";
-        int n = write(clientSocket, &NoMoveMsg, sizeof(NoMoveMsg));
-        if (n == -1) {
-            throw "Error writing the massage";
-        }
-        return true;
-    }
     Cell cell(Cell::Empty);
     Cell::Value opponentVal = cell.getOpponentVal(this->player.getVal());
     int buffer[2];
     int n = read(clientSocket, &buffer, sizeof(buffer));
-    // this->screen->showMessage((char *)buffer);
     if(n == -1) {
         throw "Error reading choice from socket";
     }
     Coordinate firstTurnFlag(-1, -1);
     if(isEndMessage(buffer)) {
-        return true;
+        return false;
     }
     //No Move -
     if (isNoMoveMsg(buffer)) {
@@ -130,7 +116,7 @@ bool Client :: readOpponentChoice() {
         return true;
     }
     Coordinate coor(buffer[0], buffer[1]);
-    if (coor.getRow() != -1 || coor.getCol() != -1) {
+    if (coor.getRow() > 0 && coor.getCol() > 0) {
         this->board->updateBoard(coor, opponentVal);
         this->screen->showPlayersChoice(opponentVal, coor);
         this->screen->showBoard(this->board);
@@ -140,15 +126,15 @@ bool Client :: readOpponentChoice() {
 }
 
 bool Client::readMassage() {
-    char msg[300];
+    char msg[MAX_NAME_LEN];
     int n = read(clientSocket, &msg, sizeof(msg));
+    if (strcmp(msg, "End") == 0) {
+        return false;
+    }
     if(strcmp(msg, "First turn") != 0) {
         screen->showMessage(msg, n);
     }
-    if (strcmp(msg, "End") == 0) {
-       // screen->gameOverScreen(this->board);
-        return false;
-    }
+    return true;
 }
 
 bool Client::isNoMoveMsg(int *buffer) {

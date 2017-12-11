@@ -7,6 +7,7 @@
 
 #include <iostream>
 using namespace std;
+#define IP_SIZE 100
 
 class FileReader {
 public:
@@ -26,7 +27,7 @@ public:
      */
     int getPort();
 private:
-    char IP [100];
+    char IP [IP_SIZE];
     int port;
 };
 

@@ -52,7 +52,7 @@ public:
      * @param board
      * @return true if there are more moves.
      */
-    bool checkForMoves(Board *board);
+    bool checkForAnotherMoves(Board *board);
 
 private:
     Cell::Value value;
