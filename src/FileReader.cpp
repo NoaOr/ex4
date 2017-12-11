@@ -5,9 +5,11 @@
 #include <fstream>
 #include <cstring>
 #include "FileReader.h"
+#define MAX_NAME_LEN 300
+
 
 FileReader::FileReader(char *fileName) {
-    char temp[300];
+    char temp[MAX_NAME_LEN];
     fstream file;
     file.open(fileName);
     file >> temp;
