@@ -55,6 +55,7 @@ private:
     Board* board;
     GameLogic* gameLogic;
     Screen* screen;
+    bool isOtherPlayerHasMove;
 };
 
 

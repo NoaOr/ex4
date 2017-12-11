@@ -13,7 +13,8 @@
 Client :: Client(const char *serverIP, int serverPort,
                  GameLogic* gameLogic, Board* board, Screen *screen) :
         serverIP(serverIP), serverPort(serverPort), clientSocket(0), gameLogic(gameLogic),
-        player(Cell::Empty, this->gameLogic), board(board), screen(screen){
+        player(Cell::Empty, this->gameLogic),
+        board(board), screen(screen), isOtherPlayerHasMove(true){
 }
 void Client :: connectToServer() {
     // Create a socket point
@@ -70,13 +71,21 @@ bool Client :: sendChoice() {
         }
         return false;
     }
-    if (!player.checkForAnotherMoves(this->board)) {
+    if (!player.checkForAnotherMoves(this->board) && isOtherPlayerHasMove) {
         char NoMoveMsg [8] = "NoMove";
         int n = write(clientSocket, &NoMoveMsg, sizeof(NoMoveMsg));
         if (n == -1) {
             throw "Error writing the massage";
         }
         return true;
+    }
+    if (!player.checkForAnotherMoves(this->board) && !isOtherPlayerHasMove) {
+        char endMsg [4] = "End";
+        int n = write(clientSocket, &endMsg, sizeof(endMsg));
+        if (n == -1) {
+            throw "Error writing the massage";
+        }
+        return false;
     }
     Coordinate choice = this->player.doYourTurn(this->board, this->screen);
         int buffer [2];
@@ -93,24 +102,33 @@ bool Client :: sendChoice() {
         if (n == -1) {
             throw "Error writing the choice";
         }
+    this->isOtherPlayerHasMove = true;
     return true;
 }
 bool Client :: readOpponentChoice() {
-    if (this->board->isBoardFull()) {
+//    if (this->board->isBoardFull()) {
+//        char endMsg [4] = "End";
+//        int n = write(clientSocket, &endMsg, sizeof(endMsg));
+//        if (n == -1) {
+//            throw "Error writing the message";
+//        }
+//        return false;
+//    }
+//    if (!player.checkForAnotherMoves(this->board)) {
+//        char NoMoveMsg [8] = "NoMove";
+//        int n = write(clientSocket, &NoMoveMsg, sizeof(NoMoveMsg));
+//        if (n == -1) {
+//            throw "Error writing the message";
+//        }
+//        return true;
+//    }
+    if (!player.checkForAnotherMoves(this->board) && !isOtherPlayerHasMove) {
         char endMsg [4] = "End";
         int n = write(clientSocket, &endMsg, sizeof(endMsg));
         if (n == -1) {
             throw "Error writing the massage";
         }
         return false;
-    }
-    if (!player.checkForAnotherMoves(this->board)) {
-        char NoMoveMsg [8] = "NoMove";
-        int n = write(clientSocket, &NoMoveMsg, sizeof(NoMoveMsg));
-        if (n == -1) {
-            throw "Error writing the massage";
-        }
-        return true;
     }
     Cell cell(Cell::Empty);
     Cell::Value opponentVal = cell.getOpponentVal(this->player.getVal());
@@ -127,6 +145,7 @@ bool Client :: readOpponentChoice() {
     //No Move -
     if (isNoMoveMsg(buffer)) {
         screen->opponentHasNoMove();
+        this->isOtherPlayerHasMove = false;
         return true;
     }
     Coordinate coor(buffer[0], buffer[1]);
@@ -134,6 +153,32 @@ bool Client :: readOpponentChoice() {
         this->board->updateBoard(coor, opponentVal);
         this->screen->showPlayersChoice(opponentVal, coor);
         this->screen->showBoard(this->board);
+    }
+
+
+    if (this->board->isBoardFull()) {
+        char endMsg [4] = "End";
+        int n = write(clientSocket, &endMsg, sizeof(endMsg));
+        if (n == -1) {
+            throw "Error writing the message";
+        }
+        return false;
+    }
+    if (!player.checkForAnotherMoves(this->board) && !isOtherPlayerHasMove) {
+        char endMsg [4] = "End";
+        int n = write(clientSocket, &endMsg, sizeof(endMsg));
+        if (n == -1) {
+            throw "Error writing the massage";
+        }
+        return false;
+    }
+    if (!player.checkForAnotherMoves(this->board)) {
+        char NoMoveMsg [8] = "NoMove";
+        int n = write(clientSocket, &NoMoveMsg, sizeof(NoMoveMsg));
+        if (n == -1) {
+            throw "Error writing the message";
+        }
+        return true;
     }
     //the game can keep going
     return true;
