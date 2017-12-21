@@ -16,26 +16,30 @@ int main() {
     int choice = screen->menu();
     Player *player2;
     GameLogic *logic = new RegularLogic();
-    Game* game;
+  //  Game* game;
     Player *player1= new HumanPlayer(Cell ::X, logic);
     if (choice == 1) {
         player2 = new HumanPlayer(Cell::O, logic);
-        game = new LocalGame(logic, player1, player2, screen);
+        LocalGame* game = new LocalGame(logic, player1, player2, screen);
+        game->run();
+        delete(game);
     } else if(choice == 2){
         player2 = new AIPlayer(Cell::O, logic);
-        game = new LocalGame(logic, player1, player2, screen);
+        LocalGame* game = new LocalGame(logic, player1, player2, screen);
+        game->run();
+        delete(game);
     } else {
         char fileName[MAX_NAME_LEN] = "definitions.txt";
-        game = new NetGame(logic, screen, fileName);
+        NetGame* game = new NetGame(logic, screen, fileName);
+        game->run();
+        delete(game);
     }
-    game->run();
     delete(logic);
     delete(player1);
     if (choice == 1 || choice == 2) {
         delete(player2);
     }
     delete(screen);
-    delete(game);
 
 
 }

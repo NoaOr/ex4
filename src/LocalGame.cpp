@@ -3,9 +3,11 @@
  * Amit Hadas 315968263
  */
 #include "LocalGame.h"
+#include "Game.h"
 #define BOARD_SIZE 8
 
-LocalGame ::LocalGame(GameLogic *logic, Player *player1, Player *player2, Screen *screen) {
+LocalGame ::LocalGame(GameLogic *logic, Player *player1,
+                      Player *player2, Screen *screen) {
     this->board = new Board(BOARD_SIZE, BOARD_SIZE, logic);
     this->logic = logic;
     this->player1 = player1;
@@ -55,5 +57,4 @@ bool LocalGame ::isBoardFull() {
 
 LocalGame ::~LocalGame() {
     delete(board);
-
 }
