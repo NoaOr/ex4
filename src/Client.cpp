@@ -132,32 +132,6 @@ bool Client :: readOpponentChoice() {
         this->screen->showPlayersChoice(opponentVal, coor);
         this->screen->showBoard(this->board);
     }
-
-
-    if (this->board->isBoardFull()) {
-        char endMsg [4] = "End";
-        int n = write(clientSocket, &endMsg, sizeof(endMsg));
-        if (n == -1) {
-            throw "Error writing the message";
-        }
-        return false;
-    }
-    if (!player.checkForAnotherMoves(this->board) && !isOtherPlayerHasMove) {
-        char endMsg [4] = "End";
-        int n = write(clientSocket, &endMsg, sizeof(endMsg));
-        if (n == -1) {
-            throw "Error writing the massage";
-        }
-        return false;
-    }
-    if (!player.checkForAnotherMoves(this->board)) {
-        char NoMoveMsg [8] = "NoMove";
-        int n = write(clientSocket, &NoMoveMsg, sizeof(NoMoveMsg));
-        if (n == -1) {
-            throw "Error writing the message";
-        }
-        return true;
-    }
     //the game can keep going
     return true;
 }
