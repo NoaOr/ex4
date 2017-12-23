@@ -49,8 +49,15 @@ void Client :: connectToServer() {
     *)&serverAddress, sizeof(serverAddress)) == -1) {
         throw "Error connecting to server";
     }
+
+    string msg = "start game1";
+    int n = write(clientSocket, &msg, sizeof(msg));
+    if (n == -1) {
+        throw "Error writing the choice";
+    }
+
     char msgBuff[MAX_NAME_LEN];
-    int n = read(clientSocket, &msgBuff, sizeof(msgBuff));
+    n = read(clientSocket, &msgBuff, sizeof(msgBuff));
     this->screen->showMessage(msgBuff, n);
     int value;
     n = read(clientSocket, &value, sizeof(value));
