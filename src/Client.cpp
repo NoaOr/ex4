@@ -59,7 +59,7 @@ void Client :: connectToServer() {
                                       "1. start <name>\n2. list_games\n3. join <name>\n");
     const char* choice = this->screen->scanFromUser();
    // string msg = "start game1";
-    int n = write(clientSocket, choice, sizeof(*choice));
+    int n = write(clientSocket, &choice, sizeof(*choice));
     if (n == -1) {
         throw "Error writing the choice";
     }

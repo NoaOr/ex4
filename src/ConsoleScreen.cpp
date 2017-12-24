@@ -4,8 +4,10 @@
  */
 
 #include <bitset>
+#include <string>
 #include <cstring>
 #include "ConsoleScreen.h"
+
 #define MAX_SIZE 100
 void ConsoleScreen::showBoard(Board *board) {
     cout << '\n' << "current board:" << endl;
@@ -124,7 +126,9 @@ void ConsoleScreen::opponentHasNoMove() const {
 const char* ConsoleScreen::scanFromUser() {
 //    char choice [MAX_SIZE];
     string choice;
-    cin >> choice;
+//    cin >> choice;
+    cin.ignore();
+    std::getline(cin, choice);
     const char * s = choice.c_str();
     return s;
 }
