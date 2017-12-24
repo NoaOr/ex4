@@ -4,7 +4,9 @@
  */
 
 #include <bitset>
+#include <cstring>
 #include "ConsoleScreen.h"
+#define MAX_SIZE 100
 void ConsoleScreen::showBoard(Board *board) {
     cout << '\n' << "current board:" << endl;
     for (int i = 0; i < board->getColSize(); i++) {
@@ -117,4 +119,12 @@ void ConsoleScreen::showMessage(char msg[], int msgSize) const {
 
 void ConsoleScreen::opponentHasNoMove() const {
     cout << "Your opponent has no move. It's your turn." << endl;
+}
+
+const char* ConsoleScreen::scanFromUser() {
+//    char choice [MAX_SIZE];
+    string choice;
+    cin >> choice;
+    const char * s = choice.c_str();
+    return s;
 }

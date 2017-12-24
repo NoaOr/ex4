@@ -50,12 +50,19 @@ void Client :: connectToServer() {
         throw "Error connecting to server";
     }
 
-    string msg = "start game1";
-    int n = write(clientSocket, &msg, sizeof(msg));
+//    char msg [MAX_NAME_LEN] = "list_games";
+//    int n = write(clientSocket, &msg, sizeof(msg));
+//    if (n == -1) {
+//        throw "Error writing the choice";
+//    }
+    this->screen->showMessage("Please enter your choice: \n"
+                                      "1. start <name>\n2. list_games\n3. join <name>\n");
+    const char* choice = this->screen->scanFromUser();
+   // string msg = "start game1";
+    int n = write(clientSocket, choice, sizeof(*choice));
     if (n == -1) {
         throw "Error writing the choice";
     }
-
     char msgBuff[MAX_NAME_LEN];
     n = read(clientSocket, &msgBuff, sizeof(msgBuff));
     this->screen->showMessage(msgBuff, n);
