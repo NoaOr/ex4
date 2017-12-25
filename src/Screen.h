@@ -7,6 +7,7 @@
 #define EX2_SCREEN_H
 
 
+#include <vector>
 #include "Board.h"
 #include "Player.h"
 
@@ -47,7 +48,8 @@ public:
     virtual void showMessage(string msg) const = 0;
     virtual void showMessage(char msg[], int msgSize) const = 0;
     virtual void opponentHasNoMove() const = 0;
-    virtual const char* scanFromUser() = 0;
+    virtual const char* scanFromUser(int i) = 0;
+    virtual void showList(list<string> namesList) const = 0;
 };
 
 

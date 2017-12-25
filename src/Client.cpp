@@ -9,6 +9,7 @@
 #include <cstring>
 #include <unistd.h>
 #include "Client.h"
+#include <vector>
 #define MAX_NAME_LEN 300
 #define END_SIZE 4
 #define NO_MOVE_SIZE 8
@@ -55,19 +56,28 @@ void Client :: connectToServer() {
 //    if (n == -1) {
 //        throw "Error writing the choice";
 //    }
-    this->screen->showMessage("Please enter your choice: \n"
-                                      "1. start <name>\n2. list_games\n3. join <name>\n");
-    const char* choice = this->screen->scanFromUser();
-   // string msg = "start game1";
-    int n = write(clientSocket, &choice, sizeof(*choice));
-    if (n == -1) {
-        throw "Error writing the choice";
-    }
-    char msgBuff[MAX_NAME_LEN];
-    n = read(clientSocket, &msgBuff, sizeof(msgBuff));
-    this->screen->showMessage(msgBuff, n);
+    bool isListGamesCommand = false;
+    const char *choice;
+    int i = 0;
+    do {
+        isListGamesCommand = false;
+        this->screen->showMessage("Please enter your choice: \n"
+                                          "1. start <name>\n2. list_games\n3. join <name>");
+        choice = this->screen->scanFromUser(i);
+        if(strcmp(choice, "list_games") == 0) {
+            isListGamesCommand = true;
+        }
+        int n = write(clientSocket, choice, MAX_NAME_LEN);
+        if (n == -1) {
+            throw "Error writing the choice";
+        }
+            char msgBuff[MAX_NAME_LEN];
+            n = read(clientSocket, &msgBuff, sizeof(msgBuff));
+            this->screen->showMessage(msgBuff, n);
+        i++;
+    } while (isListGamesCommand == true);
     int value;
-    n = read(clientSocket, &value, sizeof(value));
+    int n = read(clientSocket, &value, sizeof(value));
     if(n == -1) {
         throw "Error reading value from socket";
     }
