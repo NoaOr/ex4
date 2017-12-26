@@ -64,7 +64,7 @@ public:
      * The function tells the player that his opponent has no moves.
      */
     virtual void opponentHasNoMove() const;
-    virtual const char * scanFromUser(int i);
+    virtual string scanFromUser(int i);
     virtual void showList(list<string> namesList) const;
 };
 

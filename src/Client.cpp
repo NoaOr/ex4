@@ -21,6 +21,9 @@ Client :: Client(const char *serverIP, int serverPort,
         board(board), screen(screen), isOtherPlayerHasMove(true){
 }
 void Client :: connectToServer() {
+    bool isListGamesCommand = false;
+    int i = 0;
+    do {
     // Create a socket point
     clientSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (clientSocket == -1) {
@@ -45,29 +48,33 @@ void Client :: connectToServer() {
     memcpy((char *)&serverAddress.sin_addr.s_addr, (char *)server->h_addr, server->h_length);
     // htons converts values between host and network byte orders
     serverAddress.sin_port = htons(serverPort);
-    // Establish a connection with the TCP server
-    if (connect(clientSocket, (struct sockaddr
-    *)&serverAddress, sizeof(serverAddress)) == -1) {
-        throw "Error connecting to server";
-    }
-
-//    char msg [MAX_NAME_LEN] = "list_games";
-//    int n = write(clientSocket, &msg, sizeof(msg));
-//    if (n == -1) {
-//        throw "Error writing the choice";
+//    // Establish a connection with the TCP server
+//    if (connect(clientSocket, (struct sockaddr
+//    *)&serverAddress, sizeof(serverAddress)) == -1) {
+//        throw "Error connecting to server";
 //    }
-    bool isListGamesCommand = false;
-    const char *choice;
-    int i = 0;
-    do {
+
+
+
+//    bool isListGamesCommand = false;
+//    int i = 0;
+//    do {
+        // Establish a connection with the TCP server
+        if (connect(clientSocket, (struct sockaddr
+        *)&serverAddress, sizeof(serverAddress)) == -1) {
+            throw "Error connecting to server";
+        }
         isListGamesCommand = false;
         this->screen->showMessage("Please enter your choice: \n"
                                           "1. start <name>\n2. list_games\n3. join <name>");
-        choice = this->screen->scanFromUser(i);
-        if(strcmp(choice, "list_games") == 0) {
+        string choice= this->screen->scanFromUser(i);
+        char str[300];
+        strcpy(str, choice.c_str());
+
+        if(strcmp(str, "list_games") == 0) {
             isListGamesCommand = true;
         }
-        int n = write(clientSocket, choice, MAX_NAME_LEN);
+        int n = write(clientSocket, str, MAX_NAME_LEN);
         if (n == -1) {
             throw "Error writing the choice";
         }

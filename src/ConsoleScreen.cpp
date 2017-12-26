@@ -123,14 +123,19 @@ void ConsoleScreen::opponentHasNoMove() const {
     cout << "Your opponent has no move. It's your turn." << endl;
 }
 
-const char* ConsoleScreen::scanFromUser(int i) {
+string ConsoleScreen::scanFromUser(int i) {
     string choice;
     if (i == 0) {
         cin.ignore();
     }
-    std::getline(cin, choice);
-    const char * s = choice.c_str();
-    return s;
+    getline(cin, choice);
+    return choice;
+//    char str[300];
+//    strcpy(str, choice.c_str());
+//    const char * s = choice.c_str();
+//    strdup(s);
+//    return s;
+//    return str;
 }
 void ConsoleScreen::showList(list<string> namesList) const {
     list<string>::iterator it;
