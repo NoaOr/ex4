@@ -142,6 +142,9 @@ bool Client :: readOpponentChoice() {
     Cell::Value opponentVal = cell.getOpponentVal(this->player.getVal());
     int buffer[MAX_NAME_LEN];
     int n = read(clientSocket, &buffer, sizeof(buffer));
+    if(isEndMessage(buffer)) {
+        return false;
+    }
     if (n == 0) {
         handleExitMsg();
     }
@@ -149,9 +152,6 @@ bool Client :: readOpponentChoice() {
         throw "Error reading choice from socket";
     }
     Coordinate firstTurnFlag(-1, -1);
-    if(isEndMessage(buffer)) {
-        return false;
-    }
     //No Move -
     if (isNoMoveMsg(buffer)) {
         screen->opponentHasNoMove();
