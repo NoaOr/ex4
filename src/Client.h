@@ -46,7 +46,17 @@ public:
      * @return bool - true if the game should continue and false otherwise.
      */
     bool isNoMoveMsg(int *buffer);
+    /**
+     * This function checks if the received message is an end message
+     * @param buffer - the buffer
+     * @return - boolean
+     */
     bool isEndMessage(int *buffer);
+    /**
+     * This function handles the case of exit message
+     * @param buffer - the received message.
+     */
+    void handleExitMsg(int *buffer);
 private:
     const char *serverIP;
     int serverPort;

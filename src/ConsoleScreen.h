@@ -64,7 +64,15 @@ public:
      * The function tells the player that his opponent has no moves.
      */
     virtual void opponentHasNoMove() const;
-    virtual string scanFromUser(int i);
+    /**
+     * The function scans the choice from the user.
+     * @return the choice.
+     */
+    virtual string scanFromUser();
+    /**
+     * The function puts the received list on the screen.
+     * @param namesList - the list.
+     */
     virtual void showList(list<string> namesList) const;
 };
 

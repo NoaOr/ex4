@@ -10,6 +10,8 @@
 #include <unistd.h>
 #include "Client.h"
 #include <vector>
+#include <cstdlib>
+
 #define MAX_NAME_LEN 300
 #define END_SIZE 4
 #define NO_MOVE_SIZE 8
@@ -22,7 +24,6 @@ Client :: Client(const char *serverIP, int serverPort,
 }
 void Client :: connectToServer() {
     bool isListGamesCommand = false;
-    int i = 0;
     do {
     // Create a socket point
     clientSocket = socket(AF_INET, SOCK_STREAM, 0);
@@ -48,17 +49,7 @@ void Client :: connectToServer() {
     memcpy((char *)&serverAddress.sin_addr.s_addr, (char *)server->h_addr, server->h_length);
     // htons converts values between host and network byte orders
     serverAddress.sin_port = htons(serverPort);
-//    // Establish a connection with the TCP server
-//    if (connect(clientSocket, (struct sockaddr
-//    *)&serverAddress, sizeof(serverAddress)) == -1) {
-//        throw "Error connecting to server";
-//    }
 
-
-
-//    bool isListGamesCommand = false;
-//    int i = 0;
-//    do {
         // Establish a connection with the TCP server
         if (connect(clientSocket, (struct sockaddr
         *)&serverAddress, sizeof(serverAddress)) == -1) {
@@ -67,7 +58,7 @@ void Client :: connectToServer() {
         isListGamesCommand = false;
         this->screen->showMessage("Please enter your choice: \n"
                                           "1. start <name>\n2. list_games\n3. join <name>");
-        string choice= this->screen->scanFromUser(i);
+        string choice= this->screen->scanFromUser();
         char str[300];
         strcpy(str, choice.c_str());
 
@@ -81,7 +72,6 @@ void Client :: connectToServer() {
             char msgBuff[MAX_NAME_LEN];
             n = read(clientSocket, &msgBuff, sizeof(msgBuff));
             this->screen->showMessage(msgBuff, n);
-        i++;
     } while (isListGamesCommand == true);
     int value;
     int n = read(clientSocket, &value, sizeof(value));
@@ -142,11 +132,12 @@ bool Client :: sendChoice() {
 bool Client :: readOpponentChoice() {
     Cell cell(Cell::Empty);
     Cell::Value opponentVal = cell.getOpponentVal(this->player.getVal());
-    int buffer[2];
+    int buffer[MAX_NAME_LEN];
     int n = read(clientSocket, &buffer, sizeof(buffer));
     if(n == -1) {
         throw "Error reading choice from socket";
     }
+    handleExitMsg(buffer);
     Coordinate firstTurnFlag(-1, -1);
     if(isEndMessage(buffer)) {
         return false;
@@ -170,6 +161,7 @@ bool Client :: readOpponentChoice() {
 bool Client::readMassage() {
     char msg[MAX_NAME_LEN];
     int n = read(clientSocket, &msg, sizeof(msg));
+    handleExitMsg((int*)msg);
     if (strcmp(msg, "End") == 0) {
         return false;
     }
@@ -195,4 +187,11 @@ bool Client::isEndMessage(int *buffer) {
     }
     return false;
 
+}
+void Client::handleExitMsg(int *buffer) {
+    char *str = (char*) buffer;
+    if (strcmp(str, "The server is about to get closed.") == 0) {
+        screen->showMessage(str);
+        exit(-1);
+    }
 }

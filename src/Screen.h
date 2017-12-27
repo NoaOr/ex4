@@ -45,10 +45,27 @@ public:
      * @return player choice
      */
     virtual int menu() const = 0;
+    /**
+     * The function puts the message on the screen.
+     * @param msg - the message.
+     */
     virtual void showMessage(string msg) const = 0;
+    /**
+     * The function puts the message on the screen.
+     * @param msg - the message.
+     * @param msgSize - the message's size.
+     */
     virtual void showMessage(char msg[], int msgSize) const = 0;
+    /**
+     * This function shows that the opponent has no move.
+     */
     virtual void opponentHasNoMove() const = 0;
-    virtual string scanFromUser(int i) = 0;
+    /**
+     *
+     * @param i
+     * @return
+     */
+    virtual string scanFromUser() = 0;
     virtual void showList(list<string> namesList) const = 0;
 };
 
