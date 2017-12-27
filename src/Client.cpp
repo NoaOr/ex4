@@ -202,7 +202,7 @@ bool Client::isEndMessage(int *buffer) {
 }
 void Client::handleExitMsg() {
 
-    char msg[MAX_NAME_LEN] = "The server is about to get closed.";
+    char msg[MAX_NAME_LEN] = "The game is about to get closed.";
     screen->showMessage(msg);
     exit(-1);
 }
