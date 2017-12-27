@@ -65,7 +65,7 @@ public:
      * @param i
      * @return
      */
-    virtual string scanFromUser() = 0;
+    virtual string scanFromUser(int i) = 0;
     virtual void showList(list<string> namesList) const = 0;
 };
 

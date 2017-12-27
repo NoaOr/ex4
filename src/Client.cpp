@@ -24,6 +24,7 @@ Client :: Client(const char *serverIP, int serverPort,
 }
 void Client :: connectToServer() {
     bool isListGamesCommand = false;
+    int i= 0;
     do {
     // Create a socket point
     clientSocket = socket(AF_INET, SOCK_STREAM, 0);
@@ -58,7 +59,7 @@ void Client :: connectToServer() {
         isListGamesCommand = false;
         this->screen->showMessage("Please enter your choice: \n"
                                           "1. start <name>\n2. list_games\n3. join <name>");
-        string choice= this->screen->scanFromUser();
+        string choice= this->screen->scanFromUser(i);
         char str[300];
         strcpy(str, choice.c_str());
 
@@ -69,12 +70,19 @@ void Client :: connectToServer() {
         if (n == -1) {
             throw "Error writing the choice";
         }
-            char msgBuff[MAX_NAME_LEN];
-            n = read(clientSocket, &msgBuff, sizeof(msgBuff));
+        char msgBuff[MAX_NAME_LEN];
+        n = read(clientSocket, &msgBuff, sizeof(msgBuff));
+        if (n == 0) {
+            handleExitMsg();
+        }
             this->screen->showMessage(msgBuff, n);
+        i++;
     } while (isListGamesCommand == true);
     int value;
     int n = read(clientSocket, &value, sizeof(value));
+    if (n == 0) {
+        handleExitMsg();
+    }
     if(n == -1) {
         throw "Error reading value from socket";
     }
@@ -134,10 +142,12 @@ bool Client :: readOpponentChoice() {
     Cell::Value opponentVal = cell.getOpponentVal(this->player.getVal());
     int buffer[MAX_NAME_LEN];
     int n = read(clientSocket, &buffer, sizeof(buffer));
+    if (n == 0) {
+        handleExitMsg();
+    }
     if(n == -1) {
         throw "Error reading choice from socket";
     }
-    handleExitMsg(buffer);
     Coordinate firstTurnFlag(-1, -1);
     if(isEndMessage(buffer)) {
         return false;
@@ -161,7 +171,9 @@ bool Client :: readOpponentChoice() {
 bool Client::readMassage() {
     char msg[MAX_NAME_LEN];
     int n = read(clientSocket, &msg, sizeof(msg));
-    handleExitMsg((int*)msg);
+    if (n == 0) {
+        handleExitMsg();
+    }
     if (strcmp(msg, "End") == 0) {
         return false;
     }
@@ -188,10 +200,9 @@ bool Client::isEndMessage(int *buffer) {
     return false;
 
 }
-void Client::handleExitMsg(int *buffer) {
-    char *str = (char*) buffer;
-    if (strcmp(str, "The server is about to get closed.") == 0) {
-        screen->showMessage(str);
-        exit(-1);
-    }
+void Client::handleExitMsg() {
+
+    char msg[MAX_NAME_LEN] = "The server is about to get closed.";
+    screen->showMessage(msg);
+    exit(-1);
 }

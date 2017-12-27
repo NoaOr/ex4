@@ -68,7 +68,7 @@ public:
      * The function scans the choice from the user.
      * @return the choice.
      */
-    virtual string scanFromUser();
+    virtual string scanFromUser(int i);
     /**
      * The function puts the received list on the screen.
      * @param namesList - the list.

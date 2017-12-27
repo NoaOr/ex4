@@ -56,7 +56,7 @@ public:
      * This function handles the case of exit message
      * @param buffer - the received message.
      */
-    void handleExitMsg(int *buffer);
+    void handleExitMsg();
 private:
     const char *serverIP;
     int serverPort;

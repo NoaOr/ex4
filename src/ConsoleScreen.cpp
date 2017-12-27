@@ -123,9 +123,11 @@ void ConsoleScreen::opponentHasNoMove() const {
     cout << "Your opponent has no move. It's your turn." << endl;
 }
 
-string ConsoleScreen::scanFromUser() {
+string ConsoleScreen::scanFromUser(int i) {
     string choice;
-    cin.ignore();
+    if (i == 0) {
+        cin.ignore();
+    }
     getline(cin, choice);
     return choice;
 
