@@ -204,5 +204,5 @@ void Client::handleExitMsg() {
 
     char msg[MAX_NAME_LEN] = "The game is about to get closed.";
     screen->showMessage(msg);
-    exit(-1);
+   // exit(-1);
 }

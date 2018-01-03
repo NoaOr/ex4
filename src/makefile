@@ -2,8 +2,8 @@
 # Noa Or 208385534
 
 a.out: compileAll
-	g++ *.o 
+	g++ -o ../../exe/client.out *.o
 	rm -f *.o
 
-compileAll: *.h *.cpp
+compileAll: src/*.h src/*.cpp
 	g++ -c *.cpp
