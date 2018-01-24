@@ -24,7 +24,7 @@ public:
     /**
      * The function connects the client to the server.
      */
-    void connectToServer();
+    bool connectToServer();
     /**
      * The function sends the choice of the player to the server.
      * @return bool - true if the game should continue and false otherwise.

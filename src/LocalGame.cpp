@@ -4,7 +4,7 @@
  */
 #include "LocalGame.h"
 #include "Game.h"
-#define BOARD_SIZE 8
+#define BOARD_SIZE 4
 
 LocalGame ::LocalGame(GameLogic *logic, Player *player1,
                       Player *player2, Screen *screen) {

@@ -22,7 +22,7 @@ Client :: Client(const char *serverIP, int serverPort,
         player(Cell::Empty, this->gameLogic),
         board(board), screen(screen), isOtherPlayerHasMove(true){
 }
-void Client :: connectToServer() {
+bool Client :: connectToServer() {
     bool isListGamesCommand = false;
     int i= 0;
     do {
@@ -74,6 +74,7 @@ void Client :: connectToServer() {
         n = read(clientSocket, &msgBuff, sizeof(msgBuff));
         if (n == 0) {
             handleExitMsg();
+            return false;
         }
             this->screen->showMessage(msgBuff, n);
         i++;
@@ -82,6 +83,7 @@ void Client :: connectToServer() {
     int n = read(clientSocket, &value, sizeof(value));
     if (n == 0) {
         handleExitMsg();
+        return false;
     }
     if(n == -1) {
         throw "Error reading value from socket";
@@ -93,6 +95,7 @@ void Client :: connectToServer() {
         this->player = HumanPlayer(Cell::O, this->gameLogic);
         this->screen->showMessage("Your value is O.");
     }
+    return true;
 }
 bool Client :: sendChoice() {
     if (this->board->isBoardFull()) {
@@ -147,6 +150,7 @@ bool Client :: readOpponentChoice() {
     }
     if (n == 0) {
         handleExitMsg();
+        return false;
     }
     if(n == -1) {
         throw "Error reading choice from socket";
@@ -173,6 +177,7 @@ bool Client::readMassage() {
     int n = read(clientSocket, &msg, sizeof(msg));
     if (n == 0) {
         handleExitMsg();
+        return false;
     }
     if (strcmp(msg, "End") == 0) {
         return false;

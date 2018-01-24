@@ -6,7 +6,7 @@
 #include "NetGame.h"
 #include "FileReader.h"
 
-#define BOARD_SIZE 4
+#define BOARD_SIZE 8
 NetGame::NetGame(GameLogic* logic, Screen* screen, char *fileName){
     this->logic = logic;
     this->board = new Board(BOARD_SIZE, BOARD_SIZE, logic);
@@ -15,18 +15,21 @@ NetGame::NetGame(GameLogic* logic, Screen* screen, char *fileName){
 }
 
 void NetGame::run() {
+    int isGameContinue;
     FileReader fileReader (this->fileName);
     char *IP = fileReader.getIP();
     int port = fileReader.getPort();
     Client client(IP, port, logic, board, screen);
     try {
-        client.connectToServer();
+        isGameContinue = client.connectToServer();
+        if (isGameContinue == false) {
+            return;
+        }
     } catch (const char *msg) {
         this->screen->showMessage("Failed to connect to server. Reason: ");
         this->screen->showMessage(msg);
         exit(-1);
     }
-    int isGameContinue;
     this->screen->showBoard(this->board);
     while (true) {
         isGameContinue = client.readMassage();
